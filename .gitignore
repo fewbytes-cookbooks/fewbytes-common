@@ -1,4 +1,9 @@
+.vagrant
+Berksfile.lock
+Gemfile.lock
 *~
-*.swo
-*.swp
-*.vim
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
