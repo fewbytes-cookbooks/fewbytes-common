@@ -1,0 +1,161 @@
+snippet autoscalinggroup
+	"${1}": {
+		"Type": "AWS::AutoScaling::AutoScalingGroup",
+		"Properties": {
+			"AvailabilityZones": { "Fn:GetAZs": ""},
+			"LaunchConfigurationName" : { "Ref" : "${2:$1LC}" },
+				"MinSize" : "1",
+				"MaxSize" : "${3}",
+				"LoadBalancerNames" : [ { "Ref" : "${4:$1LB}" } ]
+			}
+	},
+
+snippet autoscalinglaunchconfig
+	"${1}" : {
+	  "Type" : "AWS::AutoScaling::LaunchConfiguration",
+	  "Properties" : {
+	    "ImageId" : "${2:ami-b89842d1}",
+	    "SecurityGroups" : [ { "Ref" : "${3}" }, { "Ref": "Mangament"} ],
+	    "InstanceType" : "${4:c1.medium}",
+	    "BlockDeviceMappings" : [ 
+	       {
+	         "DeviceName" : "/dev/sdb",
+	         "VirtualName" : "ephemeral0"
+	       }
+	    ]
+	  }
+	},
+
+snippet autoscalingpolicy
+	"${1}": {
+	    "Type" : "AWS::AutoScaling::ScalingPolicy",
+	    "Properties" : {
+	      "AdjustmentType" : "ChangeInCapacity",
+	      "AutoScalingGroupName" : { "Ref" : "${2}" },
+	      "Cooldown" : "${3:600}",
+	      "ScalingAdjustment" : "1"
+	    }
+	  },
+
+snippet cloudwatchalarm
+	  "${1}": {
+	   "Type": "AWS::CloudWatch::Alarm",
+	   "Properties": {
+	      "EvaluationPeriods": "1",
+	      "Statistic": "Average",
+	      "Threshold": "10",
+	      "AlarmDescription": "Alarm if CPU too high or metric disappears indicating instance is down",
+	      "Period": "60",
+	      "AlarmActions": [
+	        {
+	          "Ref": "${2:ScaleUpPolicy}"
+	        }
+	      ],
+	      "Namespace": "AWS/EC2",
+	      "Dimensions": [
+	        {
+	          "Name": "AutoScalingGroupName",
+	          "Value": {
+	            "Ref": "${3}"
+	          }
+	        }
+	      ],
+	      "ComparisonOperator": "GreaterThanThreshold",
+	      "MetricName": "${4:CPUUtilization}"
+	    }
+	  },
+
+snippet elasticloadbalancer
+	"${1}" : {
+			"Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+			"Properties" : {
+					"AvailabilityZones" : [ "us-east-1a" ],
+					"Instances" : [ 
+					],
+					"Listeners" : [ {
+							"LoadBalancerPort" : "80",
+							"InstancePort" : "80",
+							"Protocol" : "HTTP"
+					} ],
+					"HealthCheck" : {
+							"Target" : "HTTP:80/",
+							"HealthyThreshold" : "3",
+							"UnhealthyThreshold" : "5",
+							"Interval" : "30",
+							"Timeout" : "5"
+					}
+			}
+	},
+
+snippet iamuser
+	"${1}" : {
+		"Type" : "AWS::IAM::User",
+		"Properties" : {
+	        "Path": "/cf_users",
+			"Policies": [{
+				"PolicyName": "describeStackResource",
+				"PolicyDocument": { "Statement":[{
+					"Effect":"Allow",
+					"Action":"cloudformation:DescribeStackResource",
+					"Resource":"*"
+				}]}
+				]
+			}
+		}
+	},
+	"$1AccessKey" : {
+		"Type" : "AWS::IAM::AccessKey",
+		"Properties" : {
+			"UserName" : {"Ref": "$1"}
+		}
+	},
+
+snippet parameter
+	"${1}": {
+		"Description": "${2}",
+		"Type": "${3:String}",
+		"AllowedPattern": "${4}",
+		"Default": "${5}"
+	},
+
+
+snippet securitygroup
+	"${1}" : {
+		"Type": "AWS::EC2::SecurityGroup",
+		"Properties": {
+			"GroupDescription": "${2:$1}",
+			"SecurityGroupIngress" : [ 
+				{
+					"IpProtocol" : "${3:tcp}",
+					"FromPort" : "${4}",
+					"ToPort" : "${5:$4}",
+					"CidrIp" : "${6:0.0.0.0/0}"
+				}
+			]
+		}
+	},
+
+snippet securitygroupingress
+	"${1}": {
+		"Type": "AWS::EC2::SecurityGroupIngress",
+		"Properties" : {
+			"GroupName": {"Ref": "${2}"},
+			"SourceSecurityGroupName": { "Ref": "${3}"},
+			"IpProtocol": "${4:tcp}",
+			"FromPort": ${5},
+			"ToPort": ${6:$5}
+		}
+	},
+
+snippet NewFile
+	{ 
+		"Resources": {
+			${1}
+		},
+		"Mappings": {
+		},
+		"Parameters": {
+		},
+		"Outputs": {
+		}
+	}
