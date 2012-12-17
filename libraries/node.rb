@@ -1,5 +1,8 @@
 class Chef
   class Node
+    # TODO: Create method for retrieving hostname
+    # TODO: Change ip_for_node to a better name (relative_ipv4, relative_hostname)
+    # TODO: Make <other_node> be local node (node) by default
     def ip_for_node(other_node)
       # for EC2, check if nodes are on the same region
       if self["cloud"]["provider"] == "ec2"
