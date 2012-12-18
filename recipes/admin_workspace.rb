@@ -1,6 +1,6 @@
 package "vim"
 package "vim-scripts"
-package "bash_completion"
+package "bash-completion"
 package "less"
 package "curl"
 package "screen"
