@@ -49,7 +49,7 @@ module Fewbytes
   end
 end
 
-class Chef::Recipe              ; include Fewbytes::Common ; end
-class Chef::Resource::Directory ; include Fewbytes::Common ; end
-class Chef::Resource            ; include Fewbytes::Common ; end
-class Chef::Provider            ; include Fewbytes::Common ; end
+class Chef::Recipe              ; include Fewbytes::Chef::Common ; end
+class Chef::Resource::Directory ; include Fewbytes::Chef::Common ; end
+class Chef::Resource            ; include Fewbytes::Chef::Common ; end
+class Chef::Provider            ; include Fewbytes::Chef::Common ; end
