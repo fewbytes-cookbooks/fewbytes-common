@@ -20,9 +20,9 @@ NAGIOS_SERVICE_NAME="mysql backup"
 PREFIX=""
 S3CMD_CONFIG_FILE="$HOME/backup.s3cfg"
 
-args=$(getopt -u -o b:p:P:u:H:n: -l mysql-host:,mysq-password:,mysql-port:,mysql-user:,nsca-port:,nsca-host:,prefix:,bucket: -- $*)
+args=$(getopt -u -o b:p:P:u:H:n: -l mysql-host:,mysql-password:,mysql-port:,mysql-user:,nsca-port:,nsca-host:,prefix:,bucket: -- $*)
 
-[[ "$?" == 0 ]] || usage 
+[[ "$?" == 0 ]] || usage
 
 set -- $args
 
@@ -35,7 +35,7 @@ while [[ "$1" != -- ]]; do
 		-n|--nsca-host)		shift; NSCA_HOST="$1"; shift ;;
 		--nsca-port)		shift; NSCA_PORT="$1"; shift ;;
 		--)		        break ;;
-		-p|--prefix)        shift; PREFIX="$1"; NAGIOS_SERVICE_NAME="$PREFIX"; shift;; 
+		-p|--prefix)        shift; PREFIX="$1"; NAGIOS_SERVICE_NAME="$PREFIX"; shift;;
 		-b|--bucket)		shift; BUCKET="$1"; shift ;;
 		*)	echo "Uknown option $1"; usage ;;
 	esac

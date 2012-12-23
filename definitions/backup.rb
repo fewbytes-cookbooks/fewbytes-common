@@ -4,7 +4,7 @@ do
   include_recipe "fewbytes-common::backup_tools"
 
   node["backups"]["resources"] |= [params[:prefix]]
-  backup2s3_path = ::File.join(node["fewbytes"]["tool_dir"], "bin/backup2s3.sh")
+  backup2s3_path = ::File.join(node["fewbytes"]["tool_dir"], "bin/backup_file.sh")
   basic_command = params[:command] || "#{backup2s3_path} -j -b #{params[:bucket]} -p #{params[:prefix]}"
 
   extra_args = Array.new

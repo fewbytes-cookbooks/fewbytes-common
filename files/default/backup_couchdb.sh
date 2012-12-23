@@ -3,6 +3,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 set -e
 . `dirname $0`/../lib/backup_scripts_lib.sh
 set +e
+
 function usage () {
 	echo "$0: Backup a file to s3."
 	echo "Usage: $0 [-b BUCKET] [-t TMPDIR] [-H NSCA_HOST ] [-P NSCA_PORT] [-n HOSTNAME] [-s NAGIOS_SERVICE_NAME] -p PREFIX DB"
