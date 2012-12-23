@@ -23,8 +23,3 @@ remote_directory "/root" do
   files_mode "0644"
   files_backup 0
 end
-
-#directory "/root" do
-#  mode "0700"
-#end
-
