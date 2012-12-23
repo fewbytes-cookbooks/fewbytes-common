@@ -1,3 +1,4 @@
+include_recipe "fewbytes-common::backup_tools"
 package "python-couchdb"
 
 backup "/etc/chef" do

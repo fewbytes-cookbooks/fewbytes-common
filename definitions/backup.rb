@@ -1,7 +1,8 @@
 define :backup, :bucket => nil, :minute => "0", :hour => "8",
   :command => nil, :nsca_args => "-H %{nsca_host} -P %{nsca_port}" \
 do
-  params[:command] = "/opt/fewbytes/bin/backup2s3.sh -j -b #{params[:bucket]} -p #{params[:prefix]}" unless params[:command]
+  backup2s3_path = ::File.join(node["fewbytes"]["tool_dir"], "bin/backup2s3.sh")
+  params[:command] = "#{script_path} -j -b #{params[:bucket]} -p #{params[:prefix]}" unless params[:command]
   include_recipe "fewbytes-common::backup_tools"
   nsca_host = provider_for_service("nsca")
   extra_args = ""

@@ -3,7 +3,7 @@
 HOSTNAME=$(hostname -s)
 NAGIOS_HOSTNAME="$HOSTNAME"
 
-. /opt/fewbytes/lib/backup_scripts_lib.sh
+. `dirname $0`/../lib/backup_scripts_lib.sh
 
 usage () {
 	echo "Usage: $0 --mysql-host|-H MYSQL_HOSTNAME --mysql-port|-P MYSQL_PORT --mysql-password|-p MYSQL_PASSWORD --mysql-user|-u MYSQL_USERNAME --nsca-host|-n NSCA_HOST --nsca-port NSCA_PORT --bucket|-b BUCKET"
