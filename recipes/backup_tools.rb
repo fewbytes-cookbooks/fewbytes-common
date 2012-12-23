@@ -1,7 +1,4 @@
 # install necessary tools for backups
-
-include_recipe "fewbytes"
-include_recipe "nagios::nsca-client"
 package "s3cmd"
 
 # install s3 copy utility and necessary keys

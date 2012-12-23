@@ -29,6 +29,8 @@ end
 # Set up Chef handler reporting chef run status to nagios via nsca
 nsca = provider_for_service "nsca", :fallback_environments => ["_default"]
 if nsca
+  include_recipe "nagios::nsca-client"
+
   cookbook_file "/etc/chef/nagios_handler.rb" do
     owner "root"
     mode "644"
