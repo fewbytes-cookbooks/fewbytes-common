@@ -4,6 +4,7 @@ Description
 Requirements
 ============
 cluster_service_discovery cookbook
+chef_handler cookbook
 
 Attributes
 ==========
