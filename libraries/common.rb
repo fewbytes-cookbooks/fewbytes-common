@@ -22,7 +22,7 @@ module Fewbytes
       end
 
       def get_endpoint(hints = {})
-        ::Fewbytes::Chef::Utils.deprecation_warning __method__, "service_discovery cookbook"
+        ::Fewbytes::Chef::Utils.deprecation_warning "service_discovery cookbook"
         raise ::Chef::Exceptions::InvalidDataBagItemID, "Can't find endpoint without hints!" if hints.count == 0
         query = hints.map do |k,v|
           if v.is_a? Array
