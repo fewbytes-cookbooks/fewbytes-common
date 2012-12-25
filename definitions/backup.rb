@@ -9,7 +9,7 @@ do
 
   extra_args = Array.new
 
-  nsca_host = provider_for_service("nsca")
+  nsca_host = Chef::Config[:solo] ? nil : provider_for_service("nsca")
   if nsca_host
     extra_args.push params[:nsca_args].sub("%{nsca_host}", nsca_host[:ipaddress]
                                      ).sub("%{nsca_port}", nsca_host[:nagios][:nsca][:port].to_s)
