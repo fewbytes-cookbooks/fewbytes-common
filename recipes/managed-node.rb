@@ -1,3 +1,5 @@
+Chef::Config[:solo] and raise ::Chef::Exceptions::UnsupportedAction, "This recipe is not supported on chef-solo!"
+
 # Set up Chef handler reporting to graphite
 carbon = provider_for_service 'graphite-carbon'
 if carbon
