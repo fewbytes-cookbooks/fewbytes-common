@@ -1,7 +1,7 @@
 #! /bin/bash
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/opt/doat/bin
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 set -e
-. /opt/fewbytes/lib/backup_scripts_lib.sh
+. `dirname $0`/../lib/backup_scripts_lib.sh
 set +e
 
 function usage () {

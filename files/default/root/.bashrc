@@ -21,7 +21,7 @@ HISTFILE=~/.bash_history.`tty|tr -d "/"`
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-export CHEF_ENV=$(awk '/^environment/ {print $2}' /etc/chef/client.rb|tr -d \")
+[[ -f /etc/chef/client.rb ]] && export CHEF_ENV=$(awk '/^environment/ {print $2}' /etc/chef/client.rb|tr -d \")
 
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1):/'
@@ -44,10 +44,12 @@ function colorize {
 	echo -en "${COLOR_CODES[$1]}$2${COLOR_CODES[RESET]}"
 }
 
-if echo $CHEF_ENV | grep -qi prod ; then
-    ENVCOLOR=$(colorize LIGHT_RED "${CHEF_ENV}}")
-else
-    ENVCOLOR=$(colorize LIGHT_GREEN "${CHEF_ENV}}")
+if [[ -n $CHEF_ENV ]]; then
+  if  grep -qi prod "$CHEF_ENV" ; then
+      ENVCOLOR=$(colorize LIGHT_RED "${CHEF_ENV}}")
+  else
+      ENVCOLOR=$(colorize LIGHT_GREEN "${CHEF_ENV}}")
+  fi
 fi
 
 # make less more friendly for non-text input files, see lesspipe(1)

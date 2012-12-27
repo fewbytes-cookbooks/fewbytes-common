@@ -1,25 +1,39 @@
-class Chef
-  class Node
-    # TODO: Create method for retrieving hostname
-    # TODO: Change ip_for_node to a better name (relative_ipv4, relative_hostname)
-    # TODO: Make <other_node> be local node (node) by default
-    def ip_for_node(other_node)
-      # for EC2, check if nodes are on the same region
-      if self["cloud"]["provider"] == "ec2"
-        if self["ec2"]["placement_availability_zone"][/([a-z]{2}-[a-z]+-[0-9])[a-z]/,1] == \
-            other_node["ec2"]["placement_availability_zone"][/([a-z]{2}-[a-z]+-[0-9])[a-z]/,1]
-          self["cloud"]["local_ipv4"] 
-        else
-          self["cloud"]["public_ipv4"]
-        end
+class Chef::Node
+  def cloud_location(n)
+    case n["cloud"]
+      when "ec2"  #compare regions
+        n["ec2"]["placement_availability_zone"][/([a-z]{2}-[a-z]+-[0-9])[a-z]/,1]
+      #when adding new multi-region cloud providers - add cases here
+      when nil
+        false
       else
-        if self["cloud"]["provider"] == other_node["cloud"]["provider"]
-          self["cloud"]["local_ipv4"]
-        else
-          self["cloud"]["public_ipv4"]
-        end
-      end
+        n["cloud"]["provider"] #various single-region providers
     end
+  end
+
+  def relative_hostname(other_node=node)
+    if not cloud_location(self)
+      self["hostname"]
+    elsif cloud_location(self) == cloud_location(other_node)
+      self["cloud"]["local_hostname"]
+    else
+      self["cloud"]["public_hostname"]
+    end
+  end
+
+  def relative_ipv4(other_node=node)
+    if not cloud_location(self)
+      self["ipaddress"]
+    elsif cloud_location(self) == cloud_location(other_node)
+      self["cloud"]["local_ipv4"]
+    else
+      self["cloud"]["public_ipv4"]
+    end
+  end
+
+  def ip_for_node(other_node)
+    ::Fewbytes::Chef::Utils.deprecation_warning("ip_for_node", "relative_ipv4")
+    relative_ipv4(other_node)
   end
 end
 
