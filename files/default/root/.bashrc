@@ -45,7 +45,7 @@ function colorize {
 }
 
 if [[ -n $CHEF_ENV ]]; then
-  if  grep -qi prod "$CHEF_ENV" ; then
+  if echo "$CHEF_ENV"| grep -qi prod ; then
       ENVCOLOR=$(colorize LIGHT_RED "${CHEF_ENV}}")
   else
       ENVCOLOR=$(colorize LIGHT_GREEN "${CHEF_ENV}}")
