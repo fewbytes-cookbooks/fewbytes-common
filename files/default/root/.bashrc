@@ -21,12 +21,6 @@ HISTFILE=~/.bash_history.`tty|tr -d "/"`
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-[[ -f /etc/chef/client.rb ]] && export CHEF_ENV=$(awk '/^environment/ {print $2}' /etc/chef/client.rb|tr -d \")
-
-function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1):/'
-}
-
 declare -A COLOR_CODES
 COLOR_CODES=(
   [BLUE]="\033[0;34m"
@@ -44,13 +38,13 @@ function colorize {
 	echo -en "${COLOR_CODES[$1]}$2${COLOR_CODES[RESET]}"
 }
 
-if [[ -n $CHEF_ENV ]]; then
-  if echo "$CHEF_ENV"| grep -qi prod ; then
-      ENVCOLOR=$(colorize LIGHT_RED "${CHEF_ENV}}")
-  else
-      ENVCOLOR=$(colorize LIGHT_GREEN "${CHEF_ENV}}")
-  fi
-fi
+#if [[ -n $CHEF_ENV ]]; then
+#  if echo "$CHEF_ENV"| grep -qi prod ; then
+#      ENVCOLOR=$(colorize LIGHT_RED "${CHEF_ENV}}")
+#  else
+#      ENVCOLOR=$(colorize LIGHT_GREEN "${CHEF_ENV}}")
+#  fi
+#fi
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -81,22 +75,22 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-   PS1='${ENVCOLOR}$(ret=$?; if [[ $ret -eq "0" ]]; then echo -ne "\[\e[32m\]"; else echo -en "\[${COLOR_CODES[RED]}\][$ret]\[${COLOR_CODES[RESET]}\]"; fi; exit $RET)\[\e[2;33m\]${CLIENT}:$(echo -en "\[${COLOR_CODES[BLUE]}\]$(parse_git_branch)\[${COLOR_CODES[RESET]}\]")\[\e[39;22m\]\u@\h\[\e[00m\]:\[\e[34;1m\]$(if [[ $(pwd|wc -c|tr -d " ") > 18 ]]; then echo "\W"; else echo "\w"; fi)\[\e[0m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
+#if [ "$color_prompt" = yes ]; then
+#    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#   PS1='${ENVCOLOR}$(ret=$?; if [[ $ret -eq "0" ]]; then echo -ne "\[\e[32m\]"; else echo -en "\[${COLOR_CODES[RED]}\][$ret]\[${COLOR_CODES[RESET]}\]"; fi; exit $RET)\[\e[2;33m\]${CLIENT}:$(echo -en "\[${COLOR_CODES[BLUE]}\]$(parse_git_branch)\[${COLOR_CODES[RESET]}\]")\[\e[39;22m\]\u@\h\[\e[00m\]:\[\e[34;1m\]$(if [[ $(pwd|wc -c|tr -d " ") > 18 ]]; then echo "\W"; else echo "\w"; fi)\[\e[0m\]\$ '
+#else
+#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+#    ;;
+#*)
+#    ;;
+#esac
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
