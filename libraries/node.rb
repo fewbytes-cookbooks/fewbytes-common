@@ -1,6 +1,6 @@
 class Chef::Node
   def cloud_location(n)
-    case n["cloud"]
+    case n["cloud"]["provider"]
       when "ec2"  #compare regions
         n["ec2"]["placement_availability_zone"][/([a-z]{2}-[a-z]+-[0-9])[a-z]/,1]
       #when adding new multi-region cloud providers - add cases here
@@ -8,7 +8,7 @@ class Chef::Node
         false
       else
         n["cloud"]["provider"] #various single-region providers
-    end
+    end rescue false # in case n["cloud"] is nil
   end
 
   def relative_hostname(other_node=node)
