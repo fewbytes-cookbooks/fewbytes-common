@@ -4,7 +4,6 @@
 module Fewbytes
   module Chef
     module Common
-
       def search_within_environment(index_name, query)
         ::Chef::Log.debug("[Fewbytes::Common::search_within_environment] (#{index_name}, #{query})")
         q = query + " AND environment:#{node.chef_environment}"
