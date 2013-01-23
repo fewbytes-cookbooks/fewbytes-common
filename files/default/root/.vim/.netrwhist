@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/home/ira/s2/puppet/hieradata/env/qa1'
+let g:netrw_dirhist_2='/home/ira/AnyClip/chef-cookbook/cloud_formation'
+let g:netrw_dirhist_3='/home/ira/fewbytes'
+let g:netrw_dirhist_4='/home/ira/AnyClip-old/chef-cookbook/site-cookbooks/AnyClip/templates/default'
