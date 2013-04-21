@@ -9,7 +9,7 @@ module Fewbytes
           ::Chef::Log.debug("[Fewbytes::Chef::Common.search_within_environment] #{message}")
         end
 
-        Chef::Config[:solo] and raise ::Chef::Exceptions::UnsupportedAction, "Search is not supported on chef-solo!"
+        ::Chef::Config[:solo] and raise ::Chef::Exceptions::UnsupportedAction, "Search is not supported on chef-solo!"
         debug_print("#{index_name}, #{query})")
         q = query + " AND environment:#{node.chef_environment}"
         debug_print("real query: #{q}")
