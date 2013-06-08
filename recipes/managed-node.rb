@@ -1,7 +1,12 @@
 Chef::Config[:solo] and raise ::Chef::Exceptions::UnsupportedAction, "This recipe is not supported on chef-solo!"
 
 # Set up Chef handler reporting to graphite
-carbon = provider_for_service 'graphite-carbon'
+carbon = if defined? provider_for_service
+    provider_for_service 'graphite-carbon'
+  else
+    nil
+  end
+
 if carbon
   gem_package "chef-handler-graphite" do
       action :nothing
@@ -29,7 +34,11 @@ chef_handler "GraphiteReporting" do
 end
 
 # Set up Chef handler reporting chef run status to nagios via nsca
-nsca = provider_for_service "nsca", :fallback_environments => ["_default"]
+nsca = if defined? provider_for_service
+         provider_for_service "nsca", :fallback_environments => ["_default"]
+       else
+         nil
+       end
 if nsca
   include_recipe "nagios::nsca-client"
 

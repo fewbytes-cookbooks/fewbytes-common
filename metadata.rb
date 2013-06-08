@@ -10,6 +10,6 @@ recipe "fewbytes-common::backup_chef_server", "Backs up the node info from couch
 recipe "fewbytes-common::backup_tools", "Configures S3 authentication and backup scripts"
 recipe "fewbytes-common::managed-node", "Installs nagios and graphite clients"
 
-depends "cluster_service_discovery"
 depends "chef_handler"
 recommends "nagios"
+recommends "cluster_service_discovery"
