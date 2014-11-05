@@ -1,3 +1,4 @@
+name             "fewbytes-common"
 maintainer       "Fewbytes Technologies LTD"
 maintainer_email "chef@fewbytes.com"
 license          "All rights reserved"
